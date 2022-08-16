@@ -1,5 +1,6 @@
 package com.example.caloriecounter.repository.remote
 
+import com.example.caloriecounter.model.ingredients.IngredientsResponse
 import com.example.caloriecounter.model.recipe.RecipeData
 import com.example.caloriecounter.model.recipelist.Recipe
 import com.example.caloriecounter.repository.FoodRepository
@@ -19,7 +20,8 @@ class FoodRepositoryImpl(
         try {
             emit(foodApiService.getRecipeByName(name, apiKey).recipe)
         } catch (e: Exception) {
-            e.localizedMessage?.let { error(it) }
+            e.printStackTrace()
+//            e.localizedMessage?.let { error(it) }
         }
     }
 
@@ -27,7 +29,17 @@ class FoodRepositoryImpl(
         try {
             emit(foodApiService.getRecipeById(id, apiKey))
         } catch (e: Exception) {
-            e.localizedMessage?.let { error(it) }
+//            e.localizedMessage?.let { error(it) }
+            e.printStackTrace()
+        }
+    }
+
+    override fun getIngredientsById(id: Int): Flow<IngredientsResponse> = flow {
+        try {
+            emit(foodApiService.getIngredientsById(id, apiKey))
+        } catch (e: Exception) {
+//            e.localizedMessage?.let { error(it) }
+            e.printStackTrace()
         }
     }
 }

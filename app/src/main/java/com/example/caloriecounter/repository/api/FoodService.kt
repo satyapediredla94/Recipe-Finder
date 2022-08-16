@@ -1,5 +1,6 @@
 package com.example.caloriecounter.repository.api
 
+import com.example.caloriecounter.model.ingredients.IngredientsResponse
 import com.example.caloriecounter.model.recipe.RecipeData
 import com.example.caloriecounter.model.recipelist.RecipeResponse
 import retrofit2.http.GET
@@ -19,5 +20,11 @@ interface FoodService {
         @Path("id") id: Int,
         @Query("apiKey") apiKey: String
     ) : RecipeData
+
+    @GET("/recipes/{id}/ingredientWidget.json")
+    suspend fun getIngredientsById(
+        @Path("id") id: Int,
+        @Query("apiKey") apiKey: String
+    ) : IngredientsResponse
 
 }

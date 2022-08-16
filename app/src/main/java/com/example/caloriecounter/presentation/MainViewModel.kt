@@ -44,8 +44,25 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             foodRepository.getRecipeById(id)
                 .collect {
-                    recipeUIState = RecipeUIState(recipe = it,  isLoading = false)
+                    recipeUIState = RecipeUIState(recipe = it, isLoading = false)
                 }
+        }
+    }
+
+    fun getIngredientsById(id: Int) {
+        if (recipeUIState.ingredients.isEmpty()) {
+            viewModelScope.launch {
+                foodRepository.getIngredientsById(id)
+                    .collect { ingredients ->
+                        recipeUIState.recipe?.let {
+                            recipeUIState = RecipeUIState(
+                                recipe = it,
+                                ingredients = ingredients.ingredients,
+                                isLoading = false
+                            )
+                        }
+                    }
+            }
         }
     }
 }

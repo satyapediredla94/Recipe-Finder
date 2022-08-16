@@ -67,7 +67,11 @@ fun Content() {
                         })
                     ) { navBackStackEntry ->
                         val recipeId = navBackStackEntry.arguments?.get("recipeId") as String
-                        RecipeDetail(recipeId = recipeId.toInt(), viewModel = viewModel)
+                        RecipeDetail(
+                            recipeId = recipeId.toInt(),
+                            viewModel = viewModel,
+                            navController = navController
+                        )
                     }
                 }
 
