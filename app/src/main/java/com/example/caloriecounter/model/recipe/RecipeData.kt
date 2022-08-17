@@ -1,26 +1,40 @@
 package com.example.caloriecounter.model.recipe
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.caloriecounter.db.ListEIConverters
+import com.example.caloriecounter.db.ListTypeConverters
+import com.example.caloriecounter.db.WinePairingTypeConverter
+
+@Entity
 data class RecipeData(
     val aggregateLikes: Int,
-    val analyzedInstructions: List<Any>,
+    @TypeConverters(ListTypeConverters::class)
+    val analyzedInstructions: List<String>,
     val cheap: Boolean,
     val creditsText: String,
-    val cuisines: List<Any>,
+    @TypeConverters(ListTypeConverters::class)
+    val cuisines: List<String>,
     val dairyFree: Boolean,
-    val diets: List<Any>,
+    @TypeConverters(ListTypeConverters::class)
+    val diets: List<String>,
+    @TypeConverters(ListTypeConverters::class)
     val dishTypes: List<String>,
+    @TypeConverters(ListEIConverters::class)
     val extendedIngredients: List<ExtendedIngredient>,
     val gaps: String,
     val glutenFree: Boolean,
     val healthScore: Double,
-    val id: Int,
+    @PrimaryKey(autoGenerate = false) val id: Int,
     val image: String,
     val imageType: String,
     val instructions: String,
     val ketogenic: Boolean,
     val license: String,
     val lowFodmap: Boolean,
-    val occasions: List<Any>,
+    @TypeConverters(ListTypeConverters::class)
+    val occasions: List<String>,
     val pricePerServing: Double,
     val readyInMinutes: Int,
     val servings: Int,
@@ -37,5 +51,6 @@ data class RecipeData(
     val veryPopular: Boolean,
     val weightWatcherSmartPoints: Int,
     val whole30: Boolean,
+    @TypeConverters(WinePairingTypeConverter::class)
     val winePairing: WinePairing
 )

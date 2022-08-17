@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.caloriecounter.presentation.recipe.RecipeUIState
 import com.example.caloriecounter.presentation.search.FoodUIState
 import com.example.caloriecounter.repository.FoodRepository
+import com.example.caloriecounter.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,8 +27,18 @@ class MainViewModel @Inject constructor(
             viewModelScope.launch {
                 foodRepository.getRecipeByName(name)
                     .collect {
-                        if (it.isNotEmpty()) {
-                            foodUIState = FoodUIState(recipes = it, isLoading = false)
+                        when (it) {
+                            is Resource.Success -> {
+                                if (it.dataList.isNotEmpty()) {
+                                    foodUIState = FoodUIState(recipes = it.dataList)
+                                }
+                            }
+                            is Resource.Error -> {
+                                foodUIState = FoodUIState(message = it.errorMessage)
+                            }
+                            is Resource.Loading -> {
+                                foodUIState = foodUIState.copy(isLoading = it.isLoading)
+                            }
                         }
                     }
             }
@@ -44,7 +55,17 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             foodRepository.getRecipeById(id)
                 .collect {
-                    recipeUIState = RecipeUIState(recipe = it, isLoading = false)
+                    recipeUIState = when (it) {
+                        is Resource.Success -> {
+                            RecipeUIState(recipe = it.dataList)
+                        }
+                        is Resource.Error -> {
+                            RecipeUIState(message = it.errorMessage)
+                        }
+                        is Resource.Loading -> {
+                            recipeUIState.copy(isLoading = it.isLoading)
+                        }
+                    }
                 }
         }
     }
@@ -53,13 +74,17 @@ class MainViewModel @Inject constructor(
         if (recipeUIState.ingredients.isEmpty()) {
             viewModelScope.launch {
                 foodRepository.getIngredientsById(id)
-                    .collect { ingredients ->
-                        recipeUIState.recipe?.let {
-                            recipeUIState = RecipeUIState(
-                                recipe = it,
-                                ingredients = ingredients.ingredients,
-                                isLoading = false
-                            )
+                    .collect {
+                        recipeUIState = when (it) {
+                            is Resource.Success -> {
+                                recipeUIState.copy(ingredients = it.dataList)
+                            }
+                            is Resource.Error -> {
+                                RecipeUIState(message = it.errorMessage)
+                            }
+                            is Resource.Loading -> {
+                                recipeUIState.copy(isLoading = it.isLoading)
+                            }
                         }
                     }
             }

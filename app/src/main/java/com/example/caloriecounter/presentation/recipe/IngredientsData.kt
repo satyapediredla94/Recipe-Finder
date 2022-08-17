@@ -10,10 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.caloriecounter.model.db.LocalIngredient
 import com.example.caloriecounter.model.ingredients.Ingredient
 
 @Composable
-fun Ingredients(ingredients: List<Ingredient>) {
+fun Ingredients(ingredients: List<LocalIngredient>) {
     LazyRow {
         items(ingredients) { ingredient ->
             Card(
