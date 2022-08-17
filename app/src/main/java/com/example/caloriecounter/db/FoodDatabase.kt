@@ -9,11 +9,7 @@ import com.example.caloriecounter.model.recipelist.Recipe
 import com.example.caloriecounter.repository.db.FoodDao
 
 @Database(
-    entities = arrayOf(
-        LocalIngredient::class,
-        Recipe::class,
-        RecipeData::class
-    ),
+    entities = [LocalIngredient::class, Recipe::class, RecipeData::class],
     version = 1
 )
 @TypeConverters(
