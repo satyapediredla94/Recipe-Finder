@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.caloriecounter.model.db.LocalIngredient
-import com.example.caloriecounter.model.recipe.RecipeData
+import com.example.caloriecounter.model.recipe.recipedata.RecipeData
 import com.example.caloriecounter.model.recipelist.Recipe
 
 @Dao

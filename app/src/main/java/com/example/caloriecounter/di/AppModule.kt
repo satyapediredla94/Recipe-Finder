@@ -37,8 +37,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun retrofit() : Retrofit = Retrofit.Builder()
+    fun retrofit(
+        client: OkHttpClient
+    ): Retrofit = Retrofit.Builder()
         .baseUrl(ApiUtils.BASE_API)
+        .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -47,27 +50,30 @@ object AppModule {
     fun providesRemoteFoodRepo(
         foodService: FoodService,
         localRepo: FoodRepositoryImpl
-    ) : FoodRepository =
+    ): FoodRepository =
         com.example.caloriecounter.repository.remote.FoodRepositoryImpl(foodService, localRepo)
 
     @Provides
     @Singleton
     fun providesLocalFoodDb(
         @ApplicationContext context: Context
-    ) : FoodDatabase =
-        Room.databaseBuilder(context,
-        FoodDatabase::class.java,
-        "Food_DB").build()
+    ): FoodDatabase =
+        Room.databaseBuilder(
+            context,
+            FoodDatabase::class.java,
+            "Food_DB"
+        ).build()
 
     @Provides
     @Singleton
     fun providesFoodDao(
         database: FoodDatabase
-    ) : FoodDao = database.foodDao()
+    ): FoodDao = database.foodDao()
 
     @Provides
     @Singleton
     fun providesLocalFoodRepo(
         foodDao: FoodDao
-    ): com.example.caloriecounter.repository.local.FoodRepositoryImpl = com.example.caloriecounter.repository.local.FoodRepositoryImpl(foodDao)
+    ): com.example.caloriecounter.repository.local.FoodRepositoryImpl =
+        com.example.caloriecounter.repository.local.FoodRepositoryImpl(foodDao)
 }

@@ -2,8 +2,10 @@ package com.example.caloriecounter.db
 
 import androidx.room.TypeConverter
 import com.example.caloriecounter.model.ingredients.Amount
-import com.example.caloriecounter.model.recipe.ExtendedIngredient
+import com.example.caloriecounter.model.recipe.Measures
 import com.example.caloriecounter.model.recipe.WinePairing
+import com.example.caloriecounter.model.recipe.recipedata.AnalyzedInstruction
+import com.example.caloriecounter.model.recipe.recipedata.ExtendedIngredient
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -33,6 +35,19 @@ class WinePairingTypeConverter {
     }
 }
 
+class MeasureTypeConverter {
+    @TypeConverter
+    fun fromSource(value: String?): Measures {
+        val type = object : TypeToken<Measures>() {}.type
+        return Gson().fromJson(value, type)
+    }
+
+    @TypeConverter
+    fun toSource(value: Measures): String {
+        return Gson().toJson(value)
+    }
+}
+
 class ListTypeConverters {
     @TypeConverter
     fun toListFromString(value: String?): List<String> {
@@ -55,6 +70,19 @@ class ListEIConverters {
 
     @TypeConverter
     fun fromListToString(value: List<ExtendedIngredient>): String {
+        return Gson().toJson(value)
+    }
+}
+
+class ListAIConverters {
+    @TypeConverter
+    fun toListFromString(value: String?): List<AnalyzedInstruction> {
+        val listType = object : TypeToken<List<AnalyzedInstruction>>() {}.type
+        return Gson().fromJson(value, listType)
+    }
+
+    @TypeConverter
+    fun fromListToString(value: List<AnalyzedInstruction>): String {
         return Gson().toJson(value)
     }
 }

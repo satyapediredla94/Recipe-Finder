@@ -1,8 +1,7 @@
 package com.example.caloriecounter.repository
 
 import com.example.caloriecounter.model.db.LocalIngredient
-import com.example.caloriecounter.model.ingredients.IngredientsResponse
-import com.example.caloriecounter.model.recipe.RecipeData
+import com.example.caloriecounter.model.recipe.recipedata.RecipeData
 import com.example.caloriecounter.model.recipelist.Recipe
 import com.example.caloriecounter.utils.Resource
 import kotlinx.coroutines.flow.Flow

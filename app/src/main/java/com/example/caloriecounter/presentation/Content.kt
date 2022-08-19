@@ -43,8 +43,10 @@ fun Content() {
                     .padding(it)
             ) {
                 val foodUIState = viewModel.foodUIState
+                val recipeUIState = viewModel.foodUIState
                 NavHost(navController = navController, startDestination = Screens.Search.route) {
                     composable(Screens.Search.route) {
+                        viewModel.resetRecipeUIState()
                         Column {
                             SearchBar(viewModel = viewModel)
                             if (foodUIState.isLoading) {

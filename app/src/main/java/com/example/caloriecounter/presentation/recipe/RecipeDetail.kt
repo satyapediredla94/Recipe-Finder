@@ -31,8 +31,13 @@ fun RecipeDetail(
     navController: NavHostController
 ) {
     val recipeUIState = viewModel.recipeUIState
-    viewModel.getRecipeById(recipeId)
-    viewModel.getIngredientsById(recipeId)
+    recipeUIState.recipe?.let {
+        if (it.id != recipeId)
+            viewModel.getRecipeById(recipeId)
+    } ?: viewModel.getRecipeById(recipeId)
+    if (recipeUIState.ingredients.isEmpty()) {
+        viewModel.getIngredientsById(recipeId)
+    }
     val recipe = recipeUIState.recipe
     val ingredients = recipeUIState.ingredients
     Column(
@@ -76,7 +81,7 @@ fun RecipeDetail(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = recipe.title)
+                Text(text = recipe.title ?: "")
                 Row {
                     Image(
                         imageVector = Icons.Filled.Timer, contentDescription = "",
@@ -93,8 +98,10 @@ fun RecipeDetail(
                 textDecoration = TextDecoration.Underline
             )
             VerticalSpacer()
-            for (instructions in recipe.instructions.split("\n")) {
-                Text(text = "- $instructions")
+            recipe.instructions?.let {
+                for (instructions in it.split("\n")) {
+                    Text(text = "- $instructions")
+                }
             }
             VerticalSpacer()
             if (ingredients.isNotEmpty()) {

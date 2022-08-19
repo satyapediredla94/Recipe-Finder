@@ -1,7 +1,7 @@
 package com.example.caloriecounter.presentation.recipe
 
 import com.example.caloriecounter.model.db.LocalIngredient
-import com.example.caloriecounter.model.recipe.RecipeData
+import com.example.caloriecounter.model.recipe.recipedata.RecipeData
 
 data class RecipeUIState(
     val recipe: RecipeData? = null,

@@ -1,7 +1,7 @@
 package com.example.caloriecounter.repository.remote
 
 import com.example.caloriecounter.model.db.LocalIngredient
-import com.example.caloriecounter.model.recipe.RecipeData
+import com.example.caloriecounter.model.recipe.recipedata.RecipeData
 import com.example.caloriecounter.model.recipelist.Recipe
 import com.example.caloriecounter.repository.FoodRepository
 import com.example.caloriecounter.repository.api.FoodService
@@ -58,6 +58,7 @@ class FoodRepositoryImpl @Inject constructor(
             e.printStackTrace()
             Timber.e("Caught Exception in Recipe API")
             emit(Resource.Error(e.localizedMessage ?: "Something went wrong"))
+            return@flow
         } finally {
             Timber.e("Getting Recipe from DB")
             val recipe = withContext(dispatcher) { foodRepo.getRecipeById(id) }
@@ -71,7 +72,7 @@ class FoodRepositoryImpl @Inject constructor(
         Timber.e("Getting Ingredients using $id")
         try {
             val ingredients = foodApiService.getIngredientsById(id, apiKey).ingredients
-                Timber.e("Getting Ingredients from API Call")
+            Timber.e("Getting Ingredients from API Call")
             withContext(dispatcher) {
                 Timber.e("Launching Ingredients API Call")
                 foodRepo.insertIngredientsList(id, ingredients)

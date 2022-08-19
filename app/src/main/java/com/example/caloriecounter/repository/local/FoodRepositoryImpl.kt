@@ -2,7 +2,7 @@ package com.example.caloriecounter.repository.local
 
 import com.example.caloriecounter.model.db.LocalIngredient
 import com.example.caloriecounter.model.ingredients.Ingredient
-import com.example.caloriecounter.model.recipe.RecipeData
+import com.example.caloriecounter.model.recipe.recipedata.RecipeData
 import com.example.caloriecounter.model.recipelist.Recipe
 import com.example.caloriecounter.repository.db.FoodDao
 

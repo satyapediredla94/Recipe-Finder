@@ -10,6 +10,6 @@ data class LocalIngredient(
     val recipeId: Int,
     @TypeConverters(AmountTypeConverter::class)
     val amount: Amount,
-    val image: String,
+    val image: String?,
     val name: String
 )
