@@ -58,7 +58,6 @@ class FoodRepositoryImpl @Inject constructor(
             e.printStackTrace()
             Timber.e("Caught Exception in Recipe API")
             emit(Resource.Error(e.localizedMessage ?: "Something went wrong"))
-            return@flow
         } finally {
             Timber.e("Getting Recipe from DB")
             val recipe = withContext(dispatcher) { foodRepo.getRecipeById(id) }
@@ -81,7 +80,6 @@ class FoodRepositoryImpl @Inject constructor(
             e.printStackTrace()
             Timber.e("Received Exception Inside Ingredients")
             emit(Resource.Error(e.localizedMessage ?: "Something went wrong"))
-            return@flow
         } finally {
             Timber.e("Getting Ingredients from DB")
             val ingredients = withContext(dispatcher) {

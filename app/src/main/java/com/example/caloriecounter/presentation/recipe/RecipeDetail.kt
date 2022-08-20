@@ -4,10 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -20,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.caloriecounter.presentation.MainViewModel
@@ -81,7 +79,10 @@ fun RecipeDetail(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = recipe.title ?: "")
+                Text(
+                    text = recipe.title ?: "",
+                    fontSize = 16.sp
+                )
                 Row {
                     Image(
                         imageVector = Icons.Filled.Timer, contentDescription = "",
@@ -99,9 +100,7 @@ fun RecipeDetail(
             )
             VerticalSpacer()
             recipe.instructions?.let {
-                for (instructions in it.split("\n")) {
-                    Text(text = "- $instructions")
-                }
+                Instructions(instruction = it)
             }
             VerticalSpacer()
             if (ingredients.isNotEmpty()) {
