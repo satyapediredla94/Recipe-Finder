@@ -2,9 +2,10 @@ package com.example.caloriecounter.presentation.recipe
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -14,8 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -80,9 +79,12 @@ fun RecipeDetail(
             ) {
                 Text(
                     text = recipe.title ?: "",
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    modifier = Modifier.fillMaxWidth(0.7f)
                 )
-                Row {
+                Row(
+                    modifier = Modifier.fillMaxWidth(0.3f)
+                ) {
                     Image(
                         imageVector = Icons.Filled.Timer, contentDescription = "",
                         colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
@@ -92,19 +94,6 @@ fun RecipeDetail(
                 }
             }
             VerticalSpacer()
-            /*Text(
-                text = "Recipe",
-                fontWeight = FontWeight.Bold,
-                textDecoration = TextDecoration.Underline
-            )
-            VerticalSpacer()
-            recipe.instructions?.let {
-                Instructions(instruction = it)
-            }
-            VerticalSpacer()
-            if (ingredients.isNotEmpty()) {
-                Ingredients(ingredients = ingredients)
-            }*/
             RenderPagerState(recipe, ingredients)
         }
     }
