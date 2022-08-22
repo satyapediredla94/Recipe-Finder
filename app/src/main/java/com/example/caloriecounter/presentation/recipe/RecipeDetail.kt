@@ -42,7 +42,6 @@ fun RecipeDetail(
         modifier = Modifier
             .padding(15.dp)
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
     ) {
         if (recipeUIState.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
@@ -93,7 +92,7 @@ fun RecipeDetail(
                 }
             }
             VerticalSpacer()
-            Text(
+            /*Text(
                 text = "Recipe",
                 fontWeight = FontWeight.Bold,
                 textDecoration = TextDecoration.Underline
@@ -105,7 +104,8 @@ fun RecipeDetail(
             VerticalSpacer()
             if (ingredients.isNotEmpty()) {
                 Ingredients(ingredients = ingredients)
-            }
+            }*/
+            RenderPagerState(recipe, ingredients)
         }
     }
 }
