@@ -24,4 +24,4 @@ jobs:
       - name: Build and Deploy Debug
         run: ./gradlew assembleDebug appDistributionUploadDebug
         env:
-          FIREBASE_TOKEN: ${{FIREBASE_TOKEN}}
+          FIREBASE_TOKEN: "1//0fffxXhhra9B0CgYIARAAGA8SNwF-L9Ir1m7HOtMMxiAK7Jv-wFLskvM3STvdNKKsys5oQv_vPov9AJtP5UZ0leVM7O__i1ICdNM"
