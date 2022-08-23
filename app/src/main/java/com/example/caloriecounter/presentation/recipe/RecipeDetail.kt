@@ -84,11 +84,8 @@ fun RecipeDetail(
                 Text(
                     text = recipe.title ?: "",
                     fontSize = 16.sp,
-                    modifier = Modifier.fillMaxWidth(0.7f)
                 )
-                Row(
-                    modifier = Modifier.fillMaxWidth(0.3f)
-                ) {
+                Row {
                     Image(
                         imageVector = Icons.Filled.Timer, contentDescription = "",
                         colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)

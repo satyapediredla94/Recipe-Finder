@@ -19,6 +19,7 @@ fun Instructions(instruction: String) {
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
+            .padding(vertical = 5.dp)
     ) {
         if (instructions.size > 1) {
             for (step in instructions) {
