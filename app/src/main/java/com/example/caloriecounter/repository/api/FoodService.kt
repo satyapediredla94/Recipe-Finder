@@ -27,4 +27,10 @@ interface FoodService {
         @Query("apiKey") apiKey: String
     ): IngredientsResponse
 
+    @GET("/recipes/{id}/similar")
+    suspend fun getSimilarRecipe(
+        @Path("id") id: Int,
+        @Query("apiKey") apiKey: String
+    ): IngredientsResponse
+
 }

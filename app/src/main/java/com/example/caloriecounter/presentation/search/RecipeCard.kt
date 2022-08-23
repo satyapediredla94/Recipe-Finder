@@ -13,12 +13,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.example.caloriecounter.presentation.MainViewModel
 import com.example.caloriecounter.presentation.screens.UIConstants
 
 @Composable
 fun RecipeCard(
-    viewModel: MainViewModel,
     state: FoodUIState,
     navController: NavHostController
 ) {

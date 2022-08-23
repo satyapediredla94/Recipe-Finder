@@ -43,7 +43,6 @@ fun Content() {
                     .padding(it)
             ) {
                 val foodUIState = viewModel.foodUIState
-                val recipeUIState = viewModel.foodUIState
                 NavHost(navController = navController, startDestination = Screens.Search.route) {
                     composable(Screens.Search.route) {
                         viewModel.resetRecipeUIState()
@@ -54,7 +53,6 @@ fun Content() {
                             }
                             if (foodUIState.recipes.isNotEmpty()) {
                                 RecipeCard(
-                                    viewModel = viewModel,
                                     state = foodUIState,
                                     navController = navController
                                 )
