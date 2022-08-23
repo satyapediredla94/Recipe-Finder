@@ -28,10 +28,14 @@ fun RecipeDetail(
     navController: NavHostController
 ) {
     val recipeUIState = viewModel.recipeUIState
+
+    //Getting recipe details from repo based on the recipe ID
     recipeUIState.recipe?.let {
         if (it.id != recipeId)
             viewModel.getRecipeById(recipeId)
     } ?: viewModel.getRecipeById(recipeId)
+
+    //If Ingredients are empty, get the ingredients from repo
     if (recipeUIState.ingredients.isEmpty()) {
         viewModel.getIngredientsById(recipeId)
     }

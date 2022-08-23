@@ -1,9 +1,6 @@
 package com.example.caloriecounter.presentation.recipe
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
@@ -27,17 +24,20 @@ fun Ingredients(ingredients: List<LocalIngredient>) {
                     .height(100.dp)
                     .fillMaxWidth()
             ) {
-                Column(Modifier.fillMaxWidth()) {
+                Row(Modifier.fillMaxWidth()) {
                     AsyncImage(
                         model = ingredient.image, contentDescription = "",
                         modifier = Modifier
-                            .fillMaxHeight(0.7f),
+                            .height(30.dp)
+                            .width(30.dp),
                         contentScale = ContentScale.FillWidth
                     )
-                    VerticalSpacer(modifier = Modifier.height(2.dp))
-                    Text(text = ingredient.name)
-                    VerticalSpacer(modifier = Modifier.height(2.dp))
-                    Text(text = "${ingredient.amount.us.value} ${ingredient.amount.us.unit}")
+                    HorizontalSpacer(modifier = Modifier.height(2.dp))
+                    Column {
+                        Text(text = ingredient.name)
+                        VerticalSpacer(modifier = Modifier.height(2.dp))
+                        Text(text = "${ingredient.amount.us.value} ${ingredient.amount.us.unit}")
+                    }
                 }
             }
             VerticalSpacer()
