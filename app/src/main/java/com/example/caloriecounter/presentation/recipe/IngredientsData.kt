@@ -8,6 +8,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -38,8 +40,8 @@ fun Ingredients(ingredients: List<LocalIngredient>) {
                     HorizontalSpacer(modifier = Modifier.height(2.dp))
                     Column(Modifier.padding(10.dp)) {
                         Text(
-                            text = ingredient.name,
-                            fontSize = 16.sp
+                            text = ingredient.name.capitalize(Locale.current),
+                            fontSize = 18.sp
                         )
                         VerticalSpacer(modifier = Modifier.height(2.dp))
                         Text(
