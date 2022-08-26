@@ -51,13 +51,13 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getRecipeById(id: Int) {
+    fun getRecipeWithNutrition(id: Int) {
         viewModelScope.launch {
-            foodRepository.getRecipeById(id)
+            foodRepository.getRecipeByNutrition(id)
                 .collect {
                     recipeUIState = when (it) {
                         is Resource.Success -> {
-                            RecipeUIState(recipe = it.dataList)
+                            RecipeUIState(nutrition = it.dataList)
                         }
                         is Resource.Error -> {
                             RecipeUIState(message = it.errorMessage)
@@ -67,27 +67,6 @@ class MainViewModel @Inject constructor(
                         }
                     }
                 }
-        }
-    }
-
-    fun getIngredientsById(id: Int) {
-        if (recipeUIState.ingredients.isEmpty() && recipeUIState.message.isNullOrEmpty()) {
-            viewModelScope.launch {
-                foodRepository.getIngredientsById(id)
-                    .collect {
-                        recipeUIState = when (it) {
-                            is Resource.Success -> {
-                                recipeUIState.copy(ingredients = it.dataList)
-                            }
-                            is Resource.Error -> {
-                                RecipeUIState(message = it.errorMessage)
-                            }
-                            is Resource.Loading -> {
-                                recipeUIState.copy(isLoading = it.isLoading)
-                            }
-                        }
-                    }
-            }
         }
     }
 

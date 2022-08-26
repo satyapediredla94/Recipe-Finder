@@ -1,8 +1,7 @@
 package com.example.caloriecounter.repository.remote
 
-import com.example.caloriecounter.model.db.LocalIngredient
-import com.example.caloriecounter.model.recipe.recipedata.RecipeData
 import com.example.caloriecounter.model.recipelist.Recipe
+import com.example.caloriecounter.model.recipenutrients.Nutrition
 import com.example.caloriecounter.repository.FoodRepository
 import com.example.caloriecounter.repository.api.FoodService
 import com.example.caloriecounter.repository.local.FoodRepositoryImpl
@@ -44,11 +43,11 @@ class FoodRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getRecipeById(id: Int): Flow<Resource<RecipeData>> = flow {
+    override fun getRecipeByNutrition(id: Int): Flow<Resource<Nutrition>> = flow {
         emit(Resource.Loading(true))
         Timber.e("Getting Recipe using $id")
         try {
-            val recipeData = foodApiService.getRecipeById(id, apiKey)
+            val recipeData = foodApiService.getRecipeByNutrients(id, apiKey)
             Timber.e("Getting Recipe from API Call")
             withContext(dispatcher) {
                 Timber.e("Launching Recipe API Call")
@@ -60,32 +59,8 @@ class FoodRepositoryImpl @Inject constructor(
             emit(Resource.Error(e.localizedMessage ?: "Something went wrong"))
         } finally {
             Timber.e("Getting Recipe from DB")
-            val recipe = withContext(dispatcher) { foodRepo.getRecipeById(id) }
+            val recipe = withContext(dispatcher) { foodRepo.getRecipeByNutrition(id) }
             emit(Resource.Success(dataList = recipe))
-            emit(Resource.Loading(false))
-        }
-    }
-
-    override fun getIngredientsById(id: Int): Flow<Resource<List<LocalIngredient>>> = flow {
-        emit(Resource.Loading(true))
-        Timber.e("Getting Ingredients using $id")
-        try {
-            val ingredients = foodApiService.getIngredientsById(id, apiKey).ingredients
-            Timber.e("Getting Ingredients from API Call")
-            withContext(dispatcher) {
-                Timber.e("Launching Ingredients API Call")
-                foodRepo.insertIngredientsList(id, ingredients)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Timber.e("Received Exception Inside Ingredients")
-            emit(Resource.Error(e.localizedMessage ?: "Something went wrong"))
-        } finally {
-            Timber.e("Getting Ingredients from DB")
-            val ingredients = withContext(dispatcher) {
-                foodRepo.getIngredientsById(id)
-            }
-            emit(Resource.Success(dataList = ingredients))
             emit(Resource.Loading(false))
         }
     }

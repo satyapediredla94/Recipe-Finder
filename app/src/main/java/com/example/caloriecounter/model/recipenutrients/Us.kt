@@ -1,4 +1,4 @@
-package com.example.caloriecounter.model.recipe
+package com.example.caloriecounter.model.recipenutrients
 
 data class Us(
     val amount: Double,

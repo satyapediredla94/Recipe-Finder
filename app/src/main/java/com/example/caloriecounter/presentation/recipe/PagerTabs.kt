@@ -11,8 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import com.example.caloriecounter.model.db.LocalIngredient
-import com.example.caloriecounter.model.recipe.recipedata.RecipeData
+import com.example.caloriecounter.model.recipenutrients.Nutrition
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -22,10 +21,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun RenderPagerState(
-    recipeData: RecipeData,
-    ingredients: List<LocalIngredient>
+    recipeNutrition: Nutrition
 ) {
-    val tabData = listOf("Recipe", "Ingredients")
+    val tabData = listOf("Recipe", "Ingredients", "Nutrients")
     val pagerState = rememberPagerState()
     val tabIndex = pagerState.currentPage
     val coroutineScope = rememberCoroutineScope()
@@ -60,18 +58,31 @@ fun RenderPagerState(
         ) {
             when (pagerState.currentPage) {
                 0 ->
-                    recipeData.instructions?.let {
+                    recipeNutrition.instructions?.let {
                         Instructions(instruction = it)
                     }
                 1 -> {
-                    recipeData.extendedIngredients.let {
+                    recipeNutrition.extendedIngredients?.let {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .fillMaxHeight()
                         ) {
                             if (it.isNotEmpty()) {
-                                Ingredients(ingredients = ingredients)
+                                Ingredients(ingredients = it)
+                            }
+                        }
+                    }
+                }
+                2 -> {
+                    recipeNutrition.nutrition?.let { nutritionX ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight()
+                        ) {
+                            if (nutritionX.nutrients.isNotEmpty()) {
+                                NutritionDetails(nutritionX.nutrients)
                             }
                         }
                     }

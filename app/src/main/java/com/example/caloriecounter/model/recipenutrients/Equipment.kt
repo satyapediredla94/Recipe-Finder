@@ -1,6 +1,6 @@
-package com.example.caloriecounter.model.recipe.recipedata
+package com.example.caloriecounter.model.recipenutrients
 
-data class Ingredient(
+data class Equipment(
     val id: Int,
     val image: String,
     val localizedName: String,

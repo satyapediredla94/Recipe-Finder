@@ -1,26 +1,10 @@
 package com.example.caloriecounter.db
 
 import androidx.room.TypeConverter
-import com.example.caloriecounter.model.ingredients.Amount
-import com.example.caloriecounter.model.recipe.Measures
-import com.example.caloriecounter.model.recipe.WinePairing
-import com.example.caloriecounter.model.recipe.recipedata.AnalyzedInstruction
-import com.example.caloriecounter.model.recipe.recipedata.ExtendedIngredient
+import com.example.caloriecounter.model.recipenutrients.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class AmountTypeConverter {
-    @TypeConverter
-    fun fromSource(value: String?): Amount {
-        val type = object : TypeToken<Amount>() {}.type
-        return Gson().fromJson(value, type)
-    }
-
-    @TypeConverter
-    fun toSource(value: Amount): String {
-        return Gson().toJson(value)
-    }
-}
 
 class WinePairingTypeConverter {
     @TypeConverter
@@ -31,6 +15,19 @@ class WinePairingTypeConverter {
 
     @TypeConverter
     fun toSource(value: WinePairing): String {
+        return Gson().toJson(value)
+    }
+}
+
+class NutritionXTypeConverter {
+    @TypeConverter
+    fun fromSource(value: String?): NutritionX {
+        val type = object : TypeToken<NutritionX>() {}.type
+        return Gson().fromJson(value, type)
+    }
+
+    @TypeConverter
+    fun toSource(value: NutritionX): String {
         return Gson().toJson(value)
     }
 }
@@ -76,13 +73,13 @@ class ListEIConverters {
 
 class ListAIConverters {
     @TypeConverter
-    fun toListFromString(value: String?): List<AnalyzedInstruction> {
-        val listType = object : TypeToken<List<AnalyzedInstruction>>() {}.type
+    fun toListFromString(value: String?): List<AnalyzedInstructionsItem> {
+        val listType = object : TypeToken<List<AnalyzedInstructionsItem>>() {}.type
         return Gson().fromJson(value, listType)
     }
 
     @TypeConverter
-    fun fromListToString(value: List<AnalyzedInstruction>): String {
+    fun fromListToString(value: List<AnalyzedInstructionsItem>): String {
         return Gson().toJson(value)
     }
 }

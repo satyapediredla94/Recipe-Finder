@@ -13,11 +13,11 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.caloriecounter.model.db.LocalIngredient
+import com.example.caloriecounter.model.recipenutrients.ExtendedIngredient
 import com.example.caloriecounter.utils.ApiUtils.BASE_IMAGE_URL
 
 @Composable
-fun Ingredients(ingredients: List<LocalIngredient>) {
+fun Ingredients(ingredients: List<ExtendedIngredient>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,7 +45,7 @@ fun Ingredients(ingredients: List<LocalIngredient>) {
                         )
                         VerticalSpacer(modifier = Modifier.height(2.dp))
                         Text(
-                            text = "${ingredient.amount.us.value} ${ingredient.amount.us.unit}",
+                            text = "${ingredient.amount} ${ingredient.unit}",
                             fontSize = 16.sp
                         )
                     }
@@ -54,5 +54,4 @@ fun Ingredients(ingredients: List<LocalIngredient>) {
             VerticalSpacer()
         }
     }
-
 }

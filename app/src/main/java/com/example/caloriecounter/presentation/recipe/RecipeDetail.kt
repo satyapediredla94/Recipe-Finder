@@ -2,6 +2,7 @@ package com.example.caloriecounter.presentation.recipe
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -13,8 +14,10 @@ import androidx.compose.material.icons.filled.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -30,17 +33,13 @@ fun RecipeDetail(
     val recipeUIState = viewModel.recipeUIState
 
     //Getting recipe details from repo based on the recipe ID
-    recipeUIState.recipe?.let {
+    recipeUIState.nutrition?.let {
         if (it.id != recipeId)
-            viewModel.getRecipeById(recipeId)
-    } ?: viewModel.getRecipeById(recipeId)
+            viewModel.getRecipeWithNutrition(recipeId)
+    } ?: viewModel.getRecipeWithNutrition(recipeId)
 
-    //If Ingredients are empty, get the ingredients from repo
-    if (recipeUIState.ingredients.isEmpty()) {
-        viewModel.getIngredientsById(recipeId)
-    }
-    val recipe = recipeUIState.recipe
-    val ingredients = recipeUIState.ingredients
+
+    val recipeNutrition = recipeUIState.nutrition
     Column(
         modifier = Modifier
             .padding(15.dp)
@@ -49,7 +48,7 @@ fun RecipeDetail(
         if (recipeUIState.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
-        if (recipe != null) {
+        if (recipeNutrition != null) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
@@ -70,32 +69,36 @@ fun RecipeDetail(
                 }
             }
             AsyncImage(
-                model = recipe.image, contentDescription = "",
+                model = recipeNutrition.image, contentDescription = recipeNutrition.title,
                 modifier = Modifier
+                    .clip(RoundedCornerShape(10.dp))
                     .fillMaxWidth()
-                    .fillMaxHeight(0.4f),
+                    .fillMaxHeight(0.3f),
                 contentScale = ContentScale.FillWidth
             )
             VerticalSpacer()
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
+            Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = recipe.title ?: "",
-                    fontSize = 16.sp,
+                    text = recipeNutrition.title ?: "",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
                 )
+                VerticalSpacer(modifier = Modifier.height(5.dp))
                 Row {
+                    Text(text = "Prep Time: ")
+                    VerticalSpacer(modifier = Modifier.width(2.dp))
                     Image(
                         imageVector = Icons.Filled.Timer, contentDescription = "",
                         colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = "${recipe.readyInMinutes} min")
+                    VerticalSpacer(modifier = Modifier.width(4.dp))
+                    Text(text = "${recipeNutrition.readyInMinutes} min")
                 }
             }
             VerticalSpacer()
-            RenderPagerState(recipe, ingredients)
+            RenderPagerState(recipeNutrition)
         }
     }
 }

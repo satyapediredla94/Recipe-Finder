@@ -1,4 +1,4 @@
-package com.example.caloriecounter.model.recipe
+package com.example.caloriecounter.model.recipenutrients
 
 data class Metric(
     val amount: Double,
