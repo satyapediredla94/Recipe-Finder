@@ -11,7 +11,9 @@ interface FoodService {
     @GET("/recipes/complexSearch?")
     suspend fun getRecipeByName(
         @Query("query") query: String,
-        @Query("apiKey") apiKey: String
+        @Query("apiKey") apiKey: String,
+        @Query("offset") offset: Int,
+        @Query("number") number: Int = 10
     ): RecipeResponse
 
     @GET("/recipes/{id}/information")

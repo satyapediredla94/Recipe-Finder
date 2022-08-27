@@ -8,12 +8,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.caloriecounter"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -107,4 +107,7 @@ dependencies {
     //Pager State
     implementation "com.google.accompanist:accompanist-pager:0.25.1"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.25.1"
+
+    //Paging
+    implementation "androidx.paging:paging-compose:1.0.0-alpha16"
 }

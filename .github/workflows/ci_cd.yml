@@ -2,9 +2,9 @@ name: Deploy to Firebase App Distribution CD
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master","feature-paging" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master","feature-paging" ]
 
 jobs:
   build:

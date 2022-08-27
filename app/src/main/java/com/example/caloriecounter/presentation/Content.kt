@@ -43,6 +43,7 @@ fun Content() {
                     .padding(it)
             ) {
                 val foodUIState = viewModel.foodUIState
+                val pagingUIState = viewModel.pagingUIState
                 NavHost(navController = navController, startDestination = Screens.Search.route) {
                     composable(Screens.Search.route) {
                         viewModel.resetRecipeUIState()
@@ -51,11 +52,14 @@ fun Content() {
                             if (foodUIState.isLoading) {
                                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                             }
-                            if (foodUIState.recipes.isNotEmpty()) {
+                            /*if (foodUIState.recipes.isNotEmpty()) {
                                 RecipeCard(
                                     state = foodUIState,
                                     navController = navController
                                 )
+                            }*/
+                            pagingUIState.recipeData?.let {
+                                RecipeCard(state = pagingUIState, navController = navController)
                             }
                         }
                     }

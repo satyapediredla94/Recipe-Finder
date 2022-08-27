@@ -35,7 +35,7 @@ fun SearchBar(viewModel: MainViewModel) {
             },
             onGo = {
                 keyboardController?.hide()
-                viewModel.getRecipes(searchValue)
+                viewModel.getRecipePaging(searchValue)
                 searchValue = ""
             }
         ))
