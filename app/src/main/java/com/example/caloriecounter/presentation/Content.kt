@@ -70,7 +70,7 @@ fun Content() {
                             defaultValue = ""
                         })
                     ) { navBackStackEntry ->
-                        val recipeId = navBackStackEntry.arguments?.get("recipeId") as String
+                        val recipeId = navBackStackEntry.arguments?.getString("recipeId") as String
                         RecipeDetail(
                             recipeId = recipeId.toInt(),
                             viewModel = viewModel,
