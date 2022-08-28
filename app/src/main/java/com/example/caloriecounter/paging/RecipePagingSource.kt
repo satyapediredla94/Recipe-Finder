@@ -32,7 +32,7 @@ class RecipePagingSource(
                 } else {
                     // By default, initial load size = 3 * NETWORK PAGE SIZE
                     // ensure we're not requesting duplicating items at the 2nd request
-                    pageIndex + (params.loadSize / MAX_RESULTS)
+                    pageIndex + (params.loadSize % MAX_RESULTS)
                 }
             LoadResult.Page(
                 data = recipeList,
