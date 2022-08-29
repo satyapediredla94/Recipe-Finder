@@ -15,6 +15,7 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.caloriecounter.model.recipenutrients.NutrientX
+import com.example.caloriecounter.presentation.VerticalSpacer
 
 @Composable
 fun NutritionDetails(nutritionDetails: List<NutrientX>) {
@@ -44,7 +45,6 @@ fun NutritionDetails(nutritionDetails: List<NutrientX>) {
                         fontSize = 16.sp
                     )
                 }
-
             }
             VerticalSpacer()
         }

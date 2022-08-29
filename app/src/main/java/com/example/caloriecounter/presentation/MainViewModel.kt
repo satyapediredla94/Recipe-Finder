@@ -68,14 +68,30 @@ class MainViewModel @Inject constructor(
                         }
                     }
                 }
+            getSimilarRecipes(id)
+        }
+    }
+
+    private fun getSimilarRecipes(id: Int) {
+        viewModelScope.launch {
+            foodRepository.getSimilarRecipes(id)
+                .collect {
+                    recipeUIState = when (it) {
+                        is Resource.Success -> {
+                            recipeUIState.copy(similarRecipe = it.dataList)
+                        }
+                        is Resource.Error -> {
+                            recipeUIState.copy(message = it.errorMessage)
+                        }
+                        is Resource.Loading -> {
+                            recipeUIState.copy(isLoading = it.isLoading)
+                        }
+                    }
+                }
         }
     }
 
     fun resetRecipeUIState() {
         recipeUIState = RecipeUIState()
-    }
-
-    fun resetFoodUIState() {
-        foodUIState = FoodUIState()
     }
 }

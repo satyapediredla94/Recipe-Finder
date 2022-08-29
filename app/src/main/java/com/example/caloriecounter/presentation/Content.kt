@@ -52,12 +52,6 @@ fun Content() {
                             if (foodUIState.isLoading) {
                                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                             }
-                            /*if (foodUIState.recipes.isNotEmpty()) {
-                                RecipeCard(
-                                    state = foodUIState,
-                                    navController = navController
-                                )
-                            }*/
                             pagingUIState.recipeData?.let {
                                 RecipeCard(state = pagingUIState, navController = navController)
                             }

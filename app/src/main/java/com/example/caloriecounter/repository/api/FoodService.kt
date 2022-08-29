@@ -1,5 +1,6 @@
 package com.example.caloriecounter.repository.api
 
+import com.example.caloriecounter.model.SimilarRecipe
 import com.example.caloriecounter.model.recipelist.RecipeResponse
 import com.example.caloriecounter.model.recipenutrients.Nutrition
 import retrofit2.http.GET
@@ -27,6 +28,6 @@ interface FoodService {
     suspend fun getSimilarRecipe(
         @Path("id") id: Int,
         @Query("apiKey") apiKey: String
-    )
+    ): List<SimilarRecipe>
 
 }

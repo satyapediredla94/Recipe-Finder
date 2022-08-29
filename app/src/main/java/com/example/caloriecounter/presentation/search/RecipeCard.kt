@@ -19,7 +19,6 @@ import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import com.example.caloriecounter.presentation.screens.UIConstants
 import com.example.caloriecounter.utils.PagingUIState
-import retrofit2.HttpException
 
 @Composable
 fun RecipeCard(
@@ -39,7 +38,9 @@ fun RecipeCard(
                         .padding(15.dp)
                         .fillMaxWidth()
                         .clickable {
-                            navController.navigate("${UIConstants.RECIPE}/$recipeId")
+                            navController.navigate("${UIConstants.RECIPE}/$recipeId") {
+                                popUpTo("home")
+                            }
                         }
                 ) {
                     Column {
@@ -83,7 +84,6 @@ fun RecipeCard(
             }
 
             when (recipes.loadState.refresh) {
-                is LoadState.NotLoading -> {}
                 is LoadState.Loading -> {
                     item {
                         Box(
@@ -95,11 +95,14 @@ fun RecipeCard(
                     }
                 }
                 is LoadState.Error -> {
-                    val errorMessage = ((recipes.loadState.refresh as LoadState.Error).error as Exception).localizedMessage?.toString() ?: ""
+                    val errorMessage =
+                        ((recipes.loadState.refresh as LoadState.Error).error as Exception).localizedMessage?.toString()
+                            ?: ""
                     item {
                         Text(text = errorMessage)
                     }
                 }
+                else -> {}
             }
         },
         reverseLayout = false

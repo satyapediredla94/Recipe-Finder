@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.caloriecounter.model.recipenutrients.ExtendedIngredient
+import com.example.caloriecounter.presentation.HorizontalSpacer
+import com.example.caloriecounter.presentation.VerticalSpacer
 import com.example.caloriecounter.utils.ApiUtils.BASE_IMAGE_URL
 
 @Composable

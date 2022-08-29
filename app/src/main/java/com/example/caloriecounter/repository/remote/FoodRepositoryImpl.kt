@@ -3,6 +3,7 @@ package com.example.caloriecounter.repository.remote
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.caloriecounter.model.SimilarRecipe
 import com.example.caloriecounter.model.recipelist.Recipe
 import com.example.caloriecounter.model.recipenutrients.Nutrition
 import com.example.caloriecounter.paging.RecipePagingSource
@@ -10,7 +11,7 @@ import com.example.caloriecounter.repository.FoodRepository
 import com.example.caloriecounter.repository.api.FoodService
 import com.example.caloriecounter.repository.local.FoodRepositoryImpl
 import com.example.caloriecounter.utils.ApiUtils
-import com.example.caloriecounter.utils.ApiUtils.MAX_RESULTS
+import com.example.caloriecounter.utils.ApiUtils.ERROR_MESSAGE
 import com.example.caloriecounter.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +40,7 @@ class FoodRepositoryImpl @Inject constructor(
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            emit(Resource.Error(e.localizedMessage ?: "Something went wrong"))
+            emit(Resource.Error(e.localizedMessage ?: ERROR_MESSAGE))
         } finally {
             val recipeList = withContext(dispatcher) {
                 foodRepo.getRecipeByName(name)
@@ -54,7 +55,7 @@ class FoodRepositoryImpl @Inject constructor(
             pageSize = 10,
             enablePlaceholders = false
         ),
-        pagingSourceFactory = { RecipePagingSource(name, foodApiService, apiKey) }
+        pagingSourceFactory = { RecipePagingSource(name, foodApiService, foodRepo, apiKey) }
     ).flow
 
     override fun getRecipeByNutrition(id: Int): Flow<Resource<Nutrition>> = flow {
@@ -75,6 +76,22 @@ class FoodRepositoryImpl @Inject constructor(
             Timber.e("Getting Recipe from DB")
             val recipe = withContext(dispatcher) { foodRepo.getRecipeByNutrition(id) }
             emit(Resource.Success(dataList = recipe))
+            emit(Resource.Loading(false))
+        }
+    }
+
+    override fun getSimilarRecipes(id: Int): Flow<Resource<List<SimilarRecipe>>> = flow {
+        emit(Resource.Loading(true))
+        Timber.e("Getting Similar Recipe using $id")
+        try {
+            Timber.e("Getting similar recipes")
+            val recipeData = foodApiService.getSimilarRecipe(id, apiKey)
+            emit(Resource.Success(dataList = recipeData))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Timber.e("Caught Exception in Recipe API")
+            emit(Resource.Error(e.localizedMessage ?: "Something went wrong"))
+        } finally {
             emit(Resource.Loading(false))
         }
     }
