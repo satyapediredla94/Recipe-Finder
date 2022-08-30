@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.caloriecounter.presentation.recipe.RecipeUIState
 import com.example.caloriecounter.presentation.search.FoodUIState
 import com.example.caloriecounter.repository.FoodRepository
+import com.example.caloriecounter.utils.PagingUIState
 import com.example.caloriecounter.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     var foodUIState by mutableStateOf(FoodUIState())
+    var pagingUIState by mutableStateOf(PagingUIState())
     var recipeUIState by mutableStateOf(RecipeUIState())
 
     fun getRecipes(name: String) {
@@ -42,14 +44,13 @@ class MainViewModel @Inject constructor(
                         }
                     }
             }
-        } else {
-            foodUIState = FoodUIState(
-                recipes = emptyList(),
-                isLoading = false,
-                message = "Search Value cannot be empty"
-            )
         }
     }
+
+    fun getRecipePaging(name: String) =
+        viewModelScope.launch {
+            pagingUIState = PagingUIState(foodRepository.getRecipeByNamePaging(name))
+        }
 
     fun getRecipeWithNutrition(id: Int) {
         viewModelScope.launch {
@@ -67,14 +68,30 @@ class MainViewModel @Inject constructor(
                         }
                     }
                 }
+            getSimilarRecipes(id)
+        }
+    }
+
+    private fun getSimilarRecipes(id: Int) {
+        viewModelScope.launch {
+            foodRepository.getSimilarRecipes(id)
+                .collect {
+                    recipeUIState = when (it) {
+                        is Resource.Success -> {
+                            recipeUIState.copy(similarRecipe = it.dataList)
+                        }
+                        is Resource.Error -> {
+                            recipeUIState.copy(message = it.errorMessage)
+                        }
+                        is Resource.Loading -> {
+                            recipeUIState.copy(isLoading = it.isLoading)
+                        }
+                    }
+                }
         }
     }
 
     fun resetRecipeUIState() {
         recipeUIState = RecipeUIState()
-    }
-
-    fun resetFoodUIState() {
-        foodUIState = FoodUIState()
     }
 }
