@@ -3,6 +3,7 @@ package com.example.caloriecounter.repository.remote
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.caloriecounter.BuildConfig
 import com.example.caloriecounter.model.SimilarRecipe
 import com.example.caloriecounter.model.recipelist.Recipe
 import com.example.caloriecounter.model.recipenutrients.Nutrition
@@ -29,7 +30,7 @@ class FoodRepositoryImpl @Inject constructor(
 ) : FoodRepository {
 
     private val apiKey
-        get() = ApiUtils.API_KEY
+        get() = BuildConfig.API_KEY
 
     override fun getRecipeByName(name: String): Flow<Resource<List<Recipe>>> = flow {
         emit(Resource.Loading(true))
